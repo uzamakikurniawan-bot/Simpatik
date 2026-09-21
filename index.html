@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SIMPATIK — Pengaduan Masyarakat Ditreskrimum Polda Kepri</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0F2A5A; --ink:#0A1C3D; --gold:#C8A13A; --gold-soft:#F3E7C4;
+  --bg:#F4F6FA; --surface:#FFFFFF; --surface-2:#EEF1F7; --line:#D9DFEA;
+  --text:#14213D; --muted:#5B6782;
+  --ok:#1E8E5A; --ok-bg:#E3F4EB; --warn:#B7700F; --warn-bg:#FBEFD9; --bad:#B8322A; --bad-bg:#F9E3E1;
+  --info:#2C5AA0; --info-bg:#E4ECF8;
+  --radius-s:6px; --radius-m:10px;
+  --font:"Plus Jakarta Sans", "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --navy:#8FB0E8; --ink:#07142B; --gold:#E0BD5C; --gold-soft:#3A3113;
+    --bg:#0B1426; --surface:#121E36; --surface-2:#18264A; --line:#27365A;
+    --text:#E6ECF8; --muted:#9DAACB;
+    --ok:#5CCB94; --ok-bg:#12392A; --warn:#F0B35A; --warn-bg:#3B2C12; --bad:#F08A80; --bad-bg:#40191A;
+    --info:#8FB0E8; --info-bg:#1A2C52; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+    --navy:#8FB0E8; --ink:#07142B; --gold:#E0BD5C; --gold-soft:#3A3113;
+    --bg:#0B1426; --surface:#121E36; --surface-2:#18264A; --line:#27365A;
+    --text:#E6ECF8; --muted:#9DAACB;
+    --ok:#5CCB94; --ok-bg:#12392A; --warn:#F0B35A; --warn-bg:#3B2C12; --bad:#F08A80; --bad-bg:#40191A;
+    --info:#8FB0E8; --info-bg:#1A2C52; color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 72px)}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+img{max-width:100%}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px;border-radius:4px}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+
+/* ---------- header ---------- */
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:#0F2A5A;color:#fff;border-bottom:3px solid #C8A13A}
+.topbar-inner{max-width:1180px;margin:0 auto;display:flex;align-items:center;gap:18px;padding:10px 20px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:#fff;flex-shrink:0}
+.brand img{width:40px;height:auto}
+.brand b{display:block;font-size:19px;font-weight:800;letter-spacing:.04em;line-height:1.1}
+.brand small{display:block;font-size:11.5px;opacity:.78;line-height:1.3}
+nav.tabs{display:flex;gap:2px;margin-left:auto;overflow-x:auto;scrollbar-width:none}
+nav.tabs::-webkit-scrollbar{display:none}
+nav.tabs button{background:none;border:0;color:#D6DFF0;padding:9px 14px;border-radius:8px;cursor:pointer;font-weight:600;font-size:14px;white-space:nowrap}
+nav.tabs button:hover{background:rgba(255,255,255,.08);color:#fff}
+nav.tabs button[aria-current="page"]{background:#C8A13A;color:#0A1C3D}
+.theme-btn{background:rgba(255,255,255,.1);border:0;color:#fff;width:36px;height:36px;border-radius:8px;cursor:pointer;flex-shrink:0}
+
+main{max-width:1180px;margin:0 auto;padding:28px 20px 60px}
+.view{display:none}
+.view.active{display:block}
+h1,h2,h3{line-height:1.2;margin:0;color:var(--text)}
+h2{font-size:24px;font-weight:800}
+h3{font-size:17px;font-weight:700}
+p{margin:0}
+.lead{color:var(--muted);max-width:62ch;margin-top:6px}
+.section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:18px}
+
+/* ---------- buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid transparent;border-radius:8px;padding:11px 18px;font-weight:700;cursor:pointer;font-size:14.5px;text-decoration:none}
+.btn-primary{background:var(--gold);color:#0A1C3D}
+.btn-primary:hover{filter:brightness(1.05)}
+.btn-navy{background:#0F2A5A;color:#fff}
+:root[data-theme="dark"] .btn-navy{background:#2C4F8F}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn-navy{background:#2C4F8F}}
+.btn-ghost{background:transparent;border-color:var(--line);color:var(--text)}
+.btn-ghost:hover{background:var(--surface-2)}
+.btn-sm{padding:7px 12px;font-size:13px}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+
+/* ---------- hero ---------- */
+.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:28px;align-items:stretch;margin-bottom:34px}
+.hero-main{background:#0F2A5A;color:#fff;border-radius:14px;padding:38px 36px;position:relative;overflow:hidden}
+.hero-main::after{content:"";position:absolute;right:-110px;bottom:-120px;width:260px;height:260px;border-radius:50%;border:34px solid rgba(200,161,58,.16)}
+.hero-main h1{color:#fff;font-size:clamp(28px,4vw,40px);font-weight:800;letter-spacing:-.01em;max-width:16ch}
+.hero-main .motto{margin-top:12px;font-size:17px;color:#F3E7C4;font-weight:600}
+.hero-main p.desc{margin-top:14px;color:#C9D4EA;max-width:52ch}
+.hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px;position:relative;z-index:1}
+.hero-actions .btn-ghost{color:#fff;border-color:rgba(255,255,255,.35)}
+.hero-actions .btn-ghost:hover{background:rgba(255,255,255,.08)}
+.promise{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:26px 26px 22px;display:flex;flex-direction:column}
+.promise .big{font-size:64px;font-weight:800;line-height:1;color:var(--navy);letter-spacing:-.02em}
+.promise .big span{font-size:20px;font-weight:700;color:var(--muted);margin-left:6px;letter-spacing:0}
+.promise p{color:var(--muted);margin-top:8px}
+.promise .mini-stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:auto;padding-top:20px}
+.mini-stats div{background:var(--surface-2);border-radius:8px;padding:10px 12px}
+.mini-stats strong{display:block;font-size:22px;font-weight:800}
+.mini-stats small{color:var(--muted);font-size:12.5px}
+
+/* ---------- flow ---------- */
+.flow{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(6,1fr);gap:0;counter-reset:f;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface)}
+.flow li{padding:18px 16px;border-right:1px solid var(--line);counter-increment:f;position:relative}
+.flow li:last-child{border-right:0}
+.flow li::before{content:counter(f);display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--gold-soft);color:var(--text);font-weight:800;font-size:13px;margin-bottom:10px}
+.flow b{display:block;font-size:14px}
+.flow small{color:var(--muted);font-size:12.5px;display:block;margin-top:4px}
+.flow .sla{display:inline-block;margin-top:8px;font-size:12px;font-weight:700;color:var(--navy);background:var(--info-bg);padding:2px 8px;border-radius:20px}
+
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:22px}
+.panel + .panel{margin-top:0}
+.note{font-size:13px;color:var(--muted)}
+
+/* ---------- form ---------- */
+.form-wrap{display:grid;grid-template-columns:1fr 300px;gap:24px;align-items:start}
+fieldset{border:0;margin:0 0 22px;padding:0}
+legend{font-weight:800;font-size:16px;margin-bottom:12px;padding:0}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.fields .full{grid-column:1/-1}
+label.f{display:flex;flex-direction:column;gap:6px;font-weight:600;font-size:13.5px}
+label.f .hint{font-weight:400;color:var(--muted);font-size:12.5px}
+input[type=text],input[type=tel],input[type=email],input[type=search],select,textarea{width:100%;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px 12px;font-size:14.5px}
+textarea{min-height:130px;resize:vertical}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px color-mix(in srgb,var(--gold) 30%,transparent)}
+.req{color:var(--bad)}
+.err{color:var(--bad);font-size:12.5px;font-weight:600;display:none}
+.invalid .err{display:block}
+.invalid input,.invalid select,.invalid textarea{border-color:var(--bad)}
+.choice-row{display:flex;gap:8px;flex-wrap:wrap}
+.choice{position:relative}
+.choice input{position:absolute;opacity:0;pointer-events:none}
+.choice span{display:inline-block;padding:8px 14px;border:1px solid var(--line);border-radius:8px;cursor:pointer;font-weight:600;font-size:13.5px;background:var(--surface)}
+.choice input:checked + span{background:#0F2A5A;color:#fff;border-color:#0F2A5A}
+.choice input:focus-visible + span{outline:3px solid var(--gold);outline-offset:2px}
+.side-info{position:sticky;top:90px}
+.side-info ol{padding-left:18px;margin:10px 0 0;color:var(--muted);font-size:13.5px}
+.side-info li{margin-bottom:6px}
+.checkline{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;color:var(--muted)}
+.checkline input{margin-top:4px}
+
+/* ---------- ticket slip (signature) ---------- */
+.slip{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.slip-head{background:#0F2A5A;color:#fff;padding:20px 24px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center}
+.slip-head .no{font-size:28px;font-weight:800;letter-spacing:.03em}
+.slip-head small{color:#C9D4EA;display:block;font-size:12.5px}
+.slip-body{padding:22px 24px}
+.slip-meta{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
+.slip-meta div small{display:block;color:var(--muted);font-size:12px}
+.slip-meta div b{font-size:14.5px}
+.slip-perf{border:0;border-top:2px dashed var(--line);margin:0}
+
+.ruler{margin:6px 0 4px}
+.ruler-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:8px;flex-wrap:wrap}
+.ruler-top b{font-size:14px}
+.ruler-cells{display:grid;grid-template-columns:repeat(14,1fr);gap:3px}
+.ruler-cells i{height:22px;border-radius:3px;background:var(--surface-2);position:relative;display:block}
+.ruler-cells i.used{background:var(--ok)}
+.ruler-cells.warn i.used{background:var(--warn)}
+.ruler-cells.bad i.used{background:var(--bad)}
+.ruler-cells i.today{box-shadow:0 0 0 2px var(--text)}
+.ruler-legend{display:grid;grid-template-columns:repeat(14,1fr);gap:3px;margin-top:4px;font-size:10.5px;color:var(--muted);text-align:center}
+.ruler.compact .ruler-cells i{height:10px;border-radius:2px}
+.ruler.compact .ruler-cells{gap:2px}
+
+.timeline{list-style:none;margin:18px 0 0;padding:0}
+.timeline li{display:grid;grid-template-columns:22px 1fr;gap:12px;padding-bottom:16px;position:relative}
+.timeline li::before{content:"";position:absolute;left:10px;top:22px;bottom:0;width:2px;background:var(--line)}
+.timeline li:last-child::before{display:none}
+.dot{width:22px;height:22px;border-radius:50%;border:2px solid var(--line);background:var(--surface);display:grid;place-items:center;font-size:12px;font-weight:800}
+.done .dot{background:var(--ok);border-color:var(--ok);color:#fff}
+.current .dot{border-color:var(--gold);background:var(--gold-soft)}
+.skipped .dot{border-style:dashed}
+.timeline b{font-size:14px;display:block}
+.timeline small{color:var(--muted);font-size:12.5px;display:block}
+.timeline .memo{margin-top:4px;font-size:13px;background:var(--surface-2);padding:6px 10px;border-radius:6px}
+.skipped b{color:var(--muted);font-weight:600}
+
+.answer{margin-top:10px;border-left:4px solid var(--ok);background:var(--ok-bg);padding:14px 16px;border-radius:0 8px 8px 0}
+
+/* ---------- badges ---------- */
+.badge{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;padding:3px 9px;border-radius:20px;white-space:nowrap}
+.b-ok{background:var(--ok-bg);color:var(--ok)}
+.b-warn{background:var(--warn-bg);color:var(--warn)}
+.b-bad{background:var(--bad-bg);color:var(--bad)}
+.b-info{background:var(--info-bg);color:var(--info)}
+.b-mute{background:var(--surface-2);color:var(--muted)}
+
+/* ---------- track ---------- */
+.track-bar{display:flex;gap:10px;max-width:620px;margin-bottom:22px}
+.track-bar input{font-size:17px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.empty{border:1px dashed var(--line);border-radius:12px;padding:28px;text-align:center;color:var(--muted)}
+
+/* ---------- petugas ---------- */
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px;align-items:center}
+.toolbar input[type=search]{max-width:260px}
+.toolbar select{width:auto}
+.queue-summary{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.qchip{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:8px 12px;cursor:pointer;font-weight:600;font-size:13px}
+.qchip b{font-size:16px;margin-right:4px}
+.qchip[aria-pressed="true"]{border-color:var(--gold);background:var(--gold-soft)}
+.table-wrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;min-width:860px}
+th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:middle;font-size:13.5px}
+th{background:var(--surface-2);font-weight:700;font-size:12.5px;color:var(--muted)}
+tbody tr{cursor:pointer}
+tbody tr:hover{background:var(--surface-2)}
+tbody tr:last-child td{border-bottom:0}
+td .tno{font-weight:800;color:var(--navy);white-space:nowrap}
+td .sub{color:var(--muted);font-size:12px;display:block}
+
+/* drawer */
+.drawer-bg{position:fixed;inset:0;background:rgba(5,12,28,.5);z-index:40;display:none}
+.drawer-bg.open{display:block}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(640px,100%);background:var(--bg);z-index:41;transform:translateX(100%);transition:transform .22s ease;display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+.drawer.open{transform:none}
+.drawer-head{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;background:#0F2A5A;color:#fff}
+.drawer-head b{font-size:20px;letter-spacing:.03em}
+.drawer-head button{background:rgba(255,255,255,.12);border:0;color:#fff;border-radius:8px;width:36px;height:36px;cursor:pointer;font-size:18px}
+.drawer-body{overflow-y:auto;padding:20px;flex:1}
+.kv{display:grid;grid-template-columns:140px 1fr;gap:6px 12px;font-size:13.5px;margin-bottom:16px}
+.kv dt{color:var(--muted)}
+.kv dd{margin:0;font-weight:600}
+.uraian{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 14px;font-size:14px;margin-bottom:16px;white-space:pre-wrap}
+.action-box{background:var(--surface);border:2px solid var(--gold);border-radius:12px;padding:16px;margin:18px 0}
+.action-box h3{margin-bottom:4px}
+.action-box .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.action-box textarea{min-height:80px;margin-top:10px}
+.action-box select{margin-top:10px}
+
+/* ---------- dashboard ---------- */
+.kpis{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-bottom:20px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.kpi small{color:var(--muted);font-size:12.5px;display:block}
+.kpi strong{font-size:28px;font-weight:800;display:block;line-height:1.2;margin-top:4px}
+.kpi.accent{background:#0F2A5A;border-color:#0F2A5A}
+.kpi.accent small{color:#C9D4EA}.kpi.accent strong{color:#fff}
+.bars{display:flex;flex-direction:column;gap:9px;margin-top:14px}
+.bar{display:grid;grid-template-columns:150px 1fr 44px;gap:10px;align-items:center;font-size:13px}
+.bar .track{height:14px;background:var(--surface-2);border-radius:3px;overflow:hidden;display:flex}
+.bar .fill{height:100%;background:#2C5AA0}
+.bar .fill.gold{background:var(--gold)}
+.bar .fill.ok{background:var(--ok)}
+.bar .fill.bad{background:var(--bad)}
+.bar b{text-align:right}
+.legend{display:flex;gap:14px;font-size:12px;color:var(--muted);margin-top:8px;flex-wrap:wrap}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+.cols{display:flex;align-items:flex-end;gap:14px;height:180px;margin-top:18px;padding-bottom:4px;border-bottom:1px solid var(--line)}
+.col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:6px}
+.col .stack{width:100%;max-width:46px;display:flex;flex-direction:column-reverse;border-radius:4px 4px 0 0;overflow:hidden}
+.col .stack div{width:100%}
+.col b{font-size:12.5px}
+.col-labels{display:flex;gap:14px;margin-top:6px}
+.col-labels span{flex:1;text-align:center;font-size:12px;color:var(--muted)}
+.overdue-list{list-style:none;margin:12px 0 0;padding:0}
+.overdue-list li{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-size:13.5px;cursor:pointer}
+.overdue-list li:last-child{border-bottom:0}
+
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);background:#0A1C3D;color:#fff;padding:12px 18px;border-radius:10px;font-weight:600;font-size:14px;opacity:0;transition:all .2s;z-index:60;max-width:90vw;border-left:4px solid #C8A13A}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+footer{max-width:1180px;margin:0 auto;padding:0 20px 40px;color:var(--muted);font-size:12.5px}
+
+@media (max-width:980px){
+  .hero,.form-wrap,.grid-2{grid-template-columns:1fr}
+  .flow{grid-template-columns:repeat(3,1fr)}
+  .flow li:nth-child(3){border-right:0}
+  .flow li:nth-child(-n+3){border-bottom:1px solid var(--line)}
+  .kpis{grid-template-columns:repeat(3,1fr)}
+  .side-info{position:static}
+  .slip-meta{grid-template-columns:1fr 1fr}
+}
+@media (max-width:640px){
+  .topbar-inner{flex-wrap:wrap;gap:8px;padding:10px 14px}
+  nav.tabs{order:3;width:100%;margin-left:0}
+  .theme-btn{margin-left:auto}
+  main{padding:20px 14px 50px}
+  .hero-main{padding:28px 22px}
+  .fields{grid-template-columns:1fr}
+  .flow{grid-template-columns:1fr}
+  .flow li{border-right:0;border-bottom:1px solid var(--line)}
+  .flow li:last-child{border-bottom:0}
+  .kpis{grid-template-columns:1fr 1fr}
+  .bar{grid-template-columns:110px 1fr 36px}
+  .kv{grid-template-columns:1fr}
+  .kv dt{margin-top:6px}
+  .ruler-legend{display:none}
+  .track-bar{flex-direction:column}
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="#" data-go="beranda" aria-label="SIMPATIK beranda">
+      <img src="data:image/webp;base64,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" alt="">
+      <span><b>SIMPATIK</b><small>Bag Wassidik Ditreskrimum Polda Kepri</small></span>
+    </a>
+    <nav class="tabs" aria-label="Menu utama">
+      <button data-go="beranda" aria-current="page">Beranda</button>
+      <button data-go="adu">Buat Pengaduan</button>
+      <button data-go="lacak">Lacak Tiket</button>
+      <button data-go="petugas">Meja Petugas</button>
+      <button data-go="dashboard">Dashboard Pimpinan</button>
+    </nav>
+    <button class="theme-btn" id="themeBtn" aria-label="Ganti tema terang/gelap">◐</button>
+  </div>
+</header>
+
+<main>
+<!-- ================= BERANDA ================= -->
+<section class="view active" id="v-beranda">
+  <div class="hero">
+    <div class="hero-main">
+      <h1>Sampaikan pengaduan atas penanganan perkara Anda</h1>
+      <p class="motto">Mengadu Mudah, Ditangani Presisi.</p>
+      <p class="desc">SIMPATIK menerima pengaduan masyarakat terkait proses penyelidikan dan penyidikan di Ditreskrimum Polda Kepulauan Riau dan Polres/ta jajaran. Setiap aduan mendapat nomor tiket, diproses dengan standar waktu layanan, dan dapat dipantau sampai jawaban diterima.</p>
+      <div class="hero-actions">
+        <button class="btn btn-primary" data-go="adu">Buat pengaduan</button>
+        <button class="btn btn-ghost" data-go="lacak">Lacak nomor tiket</button>
+      </div>
+    </div>
+    <aside class="promise">
+      <div class="big">14<span>hari kerja</span></div>
+      <p>Batas waktu penyelesaian setiap pengaduan sejak diregistrasi, dari verifikasi hingga jawaban tertulis dan SP3D-Dumas.</p>
+      <div class="mini-stats" id="homeStats"></div>
+    </aside>
+  </div>
+
+  <div class="section-head">
+    <div>
+      <h2>Alur penanganan pengaduan</h2>
+      <p class="lead">Setiap tahap tercatat di sistem dan dapat Anda lihat melalui menu Lacak Tiket.</p>
+    </div>
+  </div>
+  <ol class="flow">
+    <li><b>Pengaduan masuk</b><small>Registrasi otomatis dan nomor tiket langsung terbit</small><span class="sla">Saat itu juga</span></li>
+    <li><b>Verifikasi &amp; klasifikasi</b><small>Bag Wassidik memeriksa kelengkapan dan menetapkan prioritas</small><span class="sla">≤ 1 hari</span></li>
+    <li><b>Disposisi</b><small>Diteruskan ke Subdit atau Polres/ta yang menangani perkara</small><span class="sla">≤ 1 hari</span></li>
+    <li><b>Klarifikasi &amp; penelitian</b><small>Penelitian berkas lidik/sidik, gelar perkara khusus bila diperlukan</small><span class="sla">≤ 7 hari</span></li>
+    <li><b>Supervisi pimpinan</b><small>Persetujuan Direktur/Wadir atas hasil penanganan</small><span class="sla">Dalam batas SLA</span></li>
+    <li><b>Jawaban dikirim</b><small>Pelapor menerima jawaban tertulis dan SP3D-Dumas</small><span class="sla">Total ≤ 14 hari</span></li>
+  </ol>
+
+  <div class="grid-2" style="margin-top:28px">
+    <div class="panel">
+      <h3>Yang dapat diadukan</h3>
+      <p class="note" style="margin-top:8px">Keterlambatan penanganan laporan, ketidakjelasan status perkara, belum diterimanya SP2HP, sikap atau tindakan penyidik yang dinilai tidak profesional, serta keberatan atas hasil gelar perkara, baik pada tahap penyelidikan maupun penyidikan.</p>
+    </div>
+    <div class="panel">
+      <h3>Siapkan sebelum mengadu</h3>
+      <p class="note" style="margin-top:8px">Nomor laporan polisi atau surat pengaduan awal, satuan kerja yang menangani, uraian singkat permasalahan, serta nomor HP aktif untuk menerima notifikasi perkembangan aduan.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FORM ADUAN ================= -->
+<section class="view" id="v-adu">
+  <div class="section-head">
+    <div><h2>Buat pengaduan</h2><p class="lead">Kolom bertanda <span class="req">*</span> wajib diisi. Nomor tiket terbit setelah pengaduan dikirim.</p></div>
+  </div>
+  <div class="form-wrap">
+    <form class="panel" id="formAdu" novalidate>
+      <fieldset>
+        <legend>Data pelapor</legend>
+        <div class="fields">
+          <label class="f" data-req>Nama lengkap <span class="req">*</span><input type="text" name="nama" autocomplete="name"><span class="err">Isi nama lengkap Anda.</span></label>
+          <label class="f" data-req>Nomor HP / WhatsApp <span class="req">*</span><input type="tel" name="hp" inputmode="tel" placeholder="08xxxxxxxxxx" autocomplete="tel"><span class="err">Masukkan nomor HP yang valid (10–13 digit).</span></label>
+          <label class="f full">Email <span class="hint">Opsional, untuk salinan jawaban tertulis</span><input type="email" name="email" autocomplete="email"></label>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>Perkara yang diadukan</legend>
+        <div class="fields">
+          <label class="f" data-req>Nomor laporan polisi / pengaduan awal <span class="req">*</span><input type="text" name="lp" placeholder="LP/B/123/IX/2026/SPKT"><span class="err">Isi nomor laporan polisi atau pengaduan awal.</span></label>
+          <label class="f" data-req>Satuan kerja yang menangani <span class="req">*</span><select name="satker"><option value="">Pilih satuan kerja</option></select><span class="err">Pilih satuan kerja.</span></label>
+          <div class="f full" data-req>Tahap penanganan <span class="req">*</span>
+            <div class="choice-row" role="radiogroup">
+              <label class="choice"><input type="radio" name="tahap" value="Penyelidikan"><span>Penyelidikan</span></label>
+              <label class="choice"><input type="radio" name="tahap" value="Penyidikan"><span>Penyidikan</span></label>
+              <label class="choice"><input type="radio" name="tahap" value="Tidak tahu"><span>Tidak tahu</span></label>
+            </div><span class="err">Pilih tahap penanganan.</span>
+          </div>
+          <label class="f full" data-req>Jenis pengaduan <span class="req">*</span><select name="jenis"><option value="">Pilih jenis pengaduan</option></select><span class="err">Pilih jenis pengaduan.</span></label>
+          <label class="f full" data-req>Uraian pengaduan <span class="req">*</span><span class="hint">Jelaskan kronologi singkat dan apa yang Anda harapkan. Minimal 30 karakter.</span><textarea name="uraian"></textarea><span class="err">Uraian minimal 30 karakter.</span></label>
+          <label class="f full">Lampiran pendukung <span class="hint">Foto/scan LP, SP2HP, atau dokumen lain (dicatat nama berkasnya pada versi prototipe ini)</span><input type="file" name="lampiran" multiple></label>
+        </div>
+      </fieldset>
+      <div data-req class="f">
+        <label class="checkline"><input type="checkbox" name="setuju"> Saya menyatakan informasi yang saya sampaikan benar dan dapat dipertanggungjawabkan.</label>
+        <span class="err">Centang pernyataan ini untuk mengirim pengaduan.</span>
+      </div>
+      <div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn btn-primary" type="submit">Kirim pengaduan</button>
+        <button class="btn btn-ghost" type="button" id="btnContoh">Isi contoh data</button>
+      </div>
+    </form>
+    <aside class="panel side-info">
+      <h3>Setelah Anda mengirim</h3>
+      <ol>
+        <li>Nomor tiket langsung terbit dan notifikasi dikirim ke nomor HP Anda.</li>
+        <li>Bag Wassidik memverifikasi aduan paling lambat 1 hari kerja.</li>
+        <li>Anda dapat memantau setiap tahap melalui menu Lacak Tiket.</li>
+        <li>Jawaban tertulis diterima paling lambat 14 hari kerja.</li>
+      </ol>
+      <p class="note" style="margin-top:14px">Identitas pelapor dijaga kerahasiaannya dan hanya digunakan untuk penanganan pengaduan.</p>
+    </aside>
+  </div>
+</section>
+
+<!-- ================= LACAK ================= -->
+<section class="view" id="v-lacak">
+  <div class="section-head">
+    <div><h2>Lacak tiket pengaduan</h2><p class="lead">Masukkan nomor tiket yang Anda terima, misalnya SMP-2026-0001.</p></div>
+  </div>
+  <form class="track-bar" id="formLacak">
+    <input type="text" name="tiket" placeholder="SMP-2026-0000" aria-label="Nomor tiket" autocomplete="off">
+    <button class="btn btn-navy" type="submit">Lacak</button>
+  </form>
+  <div id="lacakResult"><div class="empty">Masukkan nomor tiket untuk melihat status dan riwayat penanganan pengaduan Anda.<br><button class="btn btn-ghost btn-sm" style="margin-top:12px" id="btnContohTiket">Coba dengan nomor tiket contoh</button></div></div>
+</section>
+
+<!-- ================= PETUGAS ================= -->
+<section class="view" id="v-petugas">
+  <div class="section-head">
+    <div><h2>Meja petugas Bag Wassidik</h2><p class="lead">Antrean pengaduan diurutkan dari sisa waktu layanan paling sedikit. Klik baris untuk memproses.</p></div>
+    <button class="btn btn-ghost btn-sm" id="btnReset">Kembalikan data contoh</button>
+  </div>
+  <div class="queue-summary" id="queueChips"></div>
+  <div class="toolbar">
+    <input type="search" id="fCari" placeholder="Cari tiket, pelapor, atau nomor LP" aria-label="Cari">
+    <select id="fSatker" aria-label="Filter satuan kerja"><option value="">Semua satuan kerja</option></select>
+    <select id="fSla" aria-label="Filter SLA"><option value="">Semua status SLA</option><option value="ok">Tepat waktu</option><option value="warn">Mendekati batas</option><option value="bad">Melewati SLA</option></select>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Tiket</th><th>Pelapor / LP</th><th>Satuan kerja</th><th>Jenis</th><th>Tahap saat ini</th><th style="width:170px">Waktu layanan</th></tr></thead>
+      <tbody id="tbQueue"></tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ================= DASHBOARD ================= -->
+<section class="view" id="v-dashboard">
+  <div class="section-head">
+    <div><h2>Dashboard pimpinan</h2><p class="lead">Pemantauan kinerja penanganan Dumas Ditreskrimum Polda Kepri dan Polres/ta jajaran secara langsung.</p></div>
+    <select id="dPeriode" aria-label="Periode" style="width:auto"><option value="all">Seluruh periode</option><option value="30">30 hari terakhir</option><option value="90">90 hari terakhir</option></select>
+  </div>
+  <div class="kpis" id="kpis"></div>
+  <div class="grid-2">
+    <div class="panel"><h3>Sebaran aduan per satuan kerja</h3><div class="legend"><span><i style="background:var(--ok)"></i>Selesai</span><span><i style="background:#2C5AA0"></i>Dalam proses</span><span><i style="background:var(--bad)"></i>Melewati SLA</span></div><div class="bars" id="chSatker"></div></div>
+    <div class="panel"><h3>Tren aduan masuk per bulan</h3><div id="chBulan"></div></div>
+    <div class="panel"><h3>Posisi aduan dalam alur</h3><div class="bars" id="chTahap"></div></div>
+    <div class="panel"><h3>Jenis pengaduan</h3><div class="bars" id="chJenis"></div></div>
+  </div>
+  <div class="panel" style="margin-top:20px">
+    <h3>Aduan melewati atau mendekati batas SLA</h3>
+    <p class="note">Perlu atensi pimpinan. Klik untuk membuka detail di meja petugas.</p>
+    <ul class="overdue-list" id="overdueList"></ul>
+  </div>
+</section>
+</main>
+
+<footer>SIMPATIK — Sistem Informasi Manajemen Pengaduan Masyarakat yang Akuntabel, Transparan, Integratif, dan Kredibel. Bagian Pengawasan Penyidikan Ditreskrimum Polda Kepulauan Riau. Prototipe proyek perubahan PKN Tingkat II; data yang tampil adalah data contoh dan tersimpan di peramban ini.</footer>
+
+<div class="drawer-bg" id="drawerBg"></div>
+<aside class="drawer" id="drawer" aria-hidden="true" role="dialog" aria-label="Detail pengaduan">
+  <div class="drawer-head"><b id="dwTitle"></b><button id="dwClose" aria-label="Tutup">✕</button></div>
+  <div class="drawer-body" id="dwBody"></div>
+</aside>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+(function(){
+"use strict";
+const SATKER=['Subdit I Ditreskrimum','Subdit II Ditreskrimum','Subdit III Ditreskrimum','Subdit IV Ditreskrimum','Polresta Barelang','Polresta Tanjungpinang','Polres Karimun','Polres Bintan','Polres Lingga','Polres Natuna','Polres Kepulauan Anambas'];
+const JENIS=['Lambatnya penanganan perkara','Ketidakjelasan status perkara','Belum menerima SP2HP','Ketidakprofesionalan penyidik','Keberatan atas hasil gelar perkara','Lainnya'];
+const STEPS=[
+ {t:'Pengaduan diterima dan diregistrasi',by:'Sistem SIMPATIK',next:'Verifikasi & klasifikasi'},
+ {t:'Diverifikasi dan diklasifikasi',by:'Bag Wassidik',next:'Disposisi ke satker'},
+ {t:'Didisposisikan ke satuan kerja',by:'Bag Wassidik',next:'Klarifikasi & penelitian'},
+ {t:'Klarifikasi dan penelitian berkas lidik/sidik',by:'Satuan kerja penanganan',next:'Keputusan gelar perkara'},
+ {t:'Gelar perkara khusus',by:'Bag Wassidik',next:'Supervisi Dir/Wadir'},
+ {t:'Supervisi dan persetujuan Dir/Wadir',by:'Direktur/Wadir Reskrimum',next:'Penyusunan jawaban'},
+ {t:'Jawaban dan SP3D-Dumas dikirim ke pelapor',by:'Bag Wassidik',next:'Selesai'}
+];
+const SLA_DAYS=14, KEY='simpatik-data-v2';
+const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+/* ---------- dates ---------- */
+const isWork=d=>{const g=d.getDay();return g!==0&&g!==6};
+function addWorkdays(date,n){const d=new Date(date);let c=0;while(c<n){d.setDate(d.getDate()+1);if(isWork(d))c++}return d}
+function workdaysBetween(a,b){const s=new Date(a);s.setHours(0,0,0,0);const e=new Date(b);e.setHours(0,0,0,0);let c=0;const d=new Date(s);while(d<e){d.setDate(d.getDate()+1);if(isWork(d))c++}return c}
+const fDate=d=>new Date(d).toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'});
+const fDT=d=>{const x=new Date(d);return fDate(x)+', '+x.toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'})};
+
+/* ---------- seed ---------- */
+function rng(seed){return function(){seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function seed(){
+  const r=rng(20260926), pick=a=>a[Math.floor(r()*a.length)];
+  const first=['Andi','Siti','Rudi','Dewi','Hendra','Rina','Yusuf','Maya','Bambang','Lestari','Agus','Nur','Fajar','Wulan','Irwan','Sari','Joko','Ratna','Teguh','Fitri'];
+  const last=['Saputra','Hasibuan','Siregar','Pratama','Lubis','Wijaya','Nasution','Simanjuntak','Harahap','Kurniawan','Gultom','Rahman'];
+  const roman=['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'];
+  const ura={
+   'Lambatnya penanganan perkara':'Laporan saya sudah berjalan lebih dari tiga bulan namun belum ada pemeriksaan saksi lanjutan. Saya mohon kejelasan tindak lanjut dan jadwal pemeriksaan berikutnya.',
+   'Ketidakjelasan status perkara':'Saya tidak mengetahui apakah perkara saya masih di tahap penyelidikan atau sudah naik ke penyidikan. Mohon penjelasan status terkini perkara.',
+   'Belum menerima SP2HP':'Sejak laporan dibuat saya belum pernah menerima SP2HP. Saya berharap mendapat pemberitahuan perkembangan hasil penyelidikan secara tertulis.',
+   'Ketidakprofesionalan penyidik':'Penyidik sulit dihubungi dan beberapa kali membatalkan jadwal pemeriksaan tanpa pemberitahuan. Mohon pengawasan atas penanganan perkara ini.',
+   'Keberatan atas hasil gelar perkara':'Saya keberatan atas hasil gelar perkara yang menghentikan penyelidikan karena bukti tambahan yang saya serahkan belum dipertimbangkan.',
+   'Lainnya':'Barang bukti milik saya belum dikembalikan padahal perkara telah dinyatakan selesai. Mohon kejelasan prosedur pengembalian.'};
+  const satW=[[4,158],[1,13],[2,11],[0,8],[3,7],[5,10],[6,12],[7,8],[8,5],[9,3],[10,6]];
+  const tot=satW.reduce((a,b)=>a+b[1],0);
+  const pickSat=()=>{let x=r()*tot;for(const[s,w]of satW){if((x-=w)<0)return SATKER[s]}return SATKER[4]};
+  const now=new Date(), list=[];
+  const N=40;
+  for(let i=0;i<N;i++){
+    const ageDays=r()<0.42?Math.floor(r()*34):34+Math.floor(r()*130);
+    const c=new Date(now);c.setDate(c.getDate()-ageDays);c.setHours(8+Math.floor(r()*9),Math.floor(r()*60),0,0);
+    if(!isWork(c))c.setDate(c.getDate()+(c.getDay()===6?2:1));
+    if(c>now)c.setDate(c.getDate()-3);
+    const jenis=pick(JENIS), sat=pickSat();
+    const slow=r()<0.2?2.1:1;
+    const stall=r()<0.25;
+    const gaps=[Math.round(r()),1,stall?16:Math.round((3+r()*4)*slow),r()<0.3?2:0,1+Math.round(r()),1];
+    const hist=[{s:0,at:c.toISOString(),note:'Nomor tiket diterbitkan dan notifikasi dikirim ke pelapor.'}];
+    let t=new Date(c), gelarSkip=gaps[3]===0;
+    const notes=[null,null,'Hasil penelitian berkas telah dilaporkan oleh satuan kerja penanganan.',null,'Hasil gelar perkara khusus dituangkan dalam notulen dan rekomendasi.','Disetujui untuk ditindaklanjuti sesuai rekomendasi.'];
+    for(let s=1;s<=6;s++){
+      const g=gaps[s-1];
+      if(s===4&&gelarSkip){hist.push({s:4,at:t.toISOString(),skip:true,note:'Tidak memerlukan gelar perkara khusus.'});continue}
+      const nt=addWorkdays(t,Math.max(g,0));nt.setHours(9+Math.floor(r()*7),Math.floor(r()*60));
+      if(g===0){nt.setTime(t.getTime()+ (2+r()*5)*3600e3)}
+      if(nt>now)break;
+      t=nt;
+      let note=notes[s-1]||'';
+      if(s===1)note='Aduan lengkap. Prioritas: '+pick(['Biasa','Sedang','Tinggi'])+'.';
+      if(s===2)note='Didisposisikan kepada '+sat+'.';
+      if(s===6)note='Jawaban tertulis dan SP3D-Dumas telah dikirim kepada pelapor.';
+      hist.push({s,at:t.toISOString(),note});
+    }
+    const stage=Math.max(...hist.map(h=>h.s));
+    const nm=pick(first)+' '+pick(last);
+    list.push({no:'',created:c.toISOString(),nama:nm,hp:'08'+(1100000000+Math.floor(r()*899999999)),email:'',
+      lp:`LP/B/${100+Math.floor(r()*800)}/${roman[c.getMonth()]}/${c.getFullYear()}/SPKT`,
+      satker:sat,tahap:pick(['Penyelidikan','Penyidikan']),jenis,uraian:ura[jenis],lampiran:r()<.6?['scan_LP.pdf']:[],
+      prioritas:(hist.find(h=>h.s===1)||{note:''}).note.split('Prioritas: ')[1]?.replace('.','')||'',
+      stage,hist,
+      jawaban:stage===6?'Berdasarkan hasil klarifikasi dan supervisi, penanganan perkara Saudara dilanjutkan dengan penjadwalan pemeriksaan saksi tambahan dalam 14 hari ke depan. SP2HP terbaru telah diterbitkan dan dikirimkan bersama jawaban ini.':''});
+  }
+  // pastikan ada contoh aduan yang tertahan melewati SLA
+  let forced=0;
+  list.forEach(x=>{const age=workdaysBetween(x.created,now);if(forced<2&&age>=15&&age<=24){x.hist=x.hist.filter(h=>h.s<=(forced?2:3));x.stage=Math.max(...x.hist.map(h=>h.s));x.jawaban='';forced++}});
+  list.sort((a,b)=>new Date(a.created)-new Date(b.created));
+  list.forEach((x,i)=>{const y=new Date(x.created).getFullYear();x.no=`SMP-${y}-${String(i+1).padStart(4,'0')}`});
+  return list;
+}
+
+/* ---------- storage ---------- */
+let DATA;
+function load(){try{const v=localStorage.getItem(KEY);if(v){const d=JSON.parse(v);if(Array.isArray(d)&&d.length)return d}}catch(e){}return seed()}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(DATA))}catch(e){}}
+DATA=load();
+
+/* ---------- derived ---------- */
+function info(x){
+  const done=x.stage===6;
+  const endAt=done?x.hist.find(h=>h.s===6).at:new Date();
+  const used=workdaysBetween(x.created,endAt);
+  let sla;
+  if(done) sla=used<=SLA_DAYS?'ok':'bad';
+  else sla=used>SLA_DAYS?'bad':used>=11?'warn':'ok';
+  return {done,used,left:SLA_DAYS-used,sla};
+}
+function slaBadge(x){
+  const i=info(x);
+  if(i.done) return i.sla==='ok'?`<span class="badge b-ok">Selesai ${i.used} hari kerja</span>`:`<span class="badge b-bad">Selesai terlambat (${i.used} hari)</span>`;
+  if(i.sla==='bad') return `<span class="badge b-bad">Lewat ${i.used-SLA_DAYS} hari kerja</span>`;
+  if(i.sla==='warn') return `<span class="badge b-warn">Sisa ${i.left} hari kerja</span>`;
+  return `<span class="badge b-ok">Sisa ${i.left} hari kerja</span>`;
+}
+function ruler(x,compact){
+  const i=info(x),filled=Math.min(i.used,SLA_DAYS);
+  let cells='';for(let k=1;k<=SLA_DAYS;k++){cells+=`<i class="${k<=filled?'used':''} ${!i.done&&k===Math.max(i.used,1)&&i.used<=SLA_DAYS?'today':''}"></i>`}
+  const cls=i.sla==='bad'?'bad':i.sla==='warn'?'warn':'';
+  if(compact) return `<div class="ruler compact" title="${i.used} dari ${SLA_DAYS} hari kerja"><div class="ruler-cells ${cls}">${cells}</div></div>`;
+  let leg='';for(let k=1;k<=SLA_DAYS;k++)leg+=`<span>${k}</span>`;
+  const txt=i.used===0&&!i.done?'Diregistrasi hari ini, hitungan dimulai hari kerja berikutnya':i.done?`Diselesaikan dalam ${i.used} dari ${SLA_DAYS} hari kerja`:i.sla==='bad'?`Telah berjalan ${i.used} hari kerja, melewati batas ${SLA_DAYS} hari`:`Hari kerja ke-${i.used} dari ${SLA_DAYS}`;
+  return `<div class="ruler"><div class="ruler-top"><b>Waktu layanan</b><span class="note">${txt}</span></div><div class="ruler-cells ${cls}">${cells}</div><div class="ruler-legend">${leg}</div></div>`;
+}
+const nextLabel=x=>x.stage===6?'Selesai':STEPS[x.stage].next;
+function stageBadge(x){
+  if(x.stage===6)return '<span class="badge b-ok">Selesai</span>';
+  return `<span class="badge b-info">${esc(nextLabel(x))}</span>`;
+}
+function timeline(x){
+  let h='';
+  STEPS.forEach((s,idx)=>{
+    const e=x.hist.find(q=>q.s===idx);
+    let cls='',mark=idx+1,sub='Menunggu';
+    if(e&&e.skip){cls='skipped';mark='–';sub='Tidak diperlukan'}
+    else if(e){cls='done';mark='✓';sub=fDT(e.at)+' · '+s.by}
+    else if(idx===x.stage+1){cls='current';sub='Sedang diproses'}
+    h+=`<li class="${cls}"><span class="dot">${mark}</span><div><b>${esc(s.t)}</b><small>${esc(sub)}</small>${e&&e.note&&!e.skip?`<div class="memo">${esc(e.note)}</div>`:''}</div></li>`;
+  });
+  return `<ol class="timeline">${h}</ol>`;
+}
+const maskHP=h=>h?h.slice(0,4)+'••••'+h.slice(-3):'-';
+
+/* ---------- router ---------- */
+function go(v){
+  $$('.view').forEach(s=>s.classList.toggle('active',s.id==='v-'+v));
+  $$('nav.tabs button').forEach(b=>b.setAttribute('aria-current',b.dataset.go===v?'page':'false'));
+  if(location.hash!=='#'+v)history.replaceState(null,'','#'+v);
+  if(v==='petugas')renderQueue();
+  if(v==='dashboard')renderDash();
+  if(v==='beranda')renderHome();
+  window.scrollTo(0,0);
+}
+document.addEventListener('click',e=>{const g=e.target.closest('[data-go]');if(g){e.preventDefault();go(g.dataset.go)}});
+
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove('show'),3200)}
+
+/* ---------- home ---------- */
+function renderHome(){
+  const done=DATA.filter(x=>x.stage===6),ontime=done.filter(x=>info(x).sla==='ok');
+  const open=DATA.length-done.length;
+  $('#homeStats').innerHTML=`<div><strong>${DATA.length}</strong><small>Aduan tercatat</small></div><div><strong>${done.length?Math.round(ontime.length/done.length*100):0}%</strong><small>Selesai tepat waktu</small></div><div><strong>${done.length}</strong><small>Sudah dijawab</small></div><div><strong>${open}</strong><small>Sedang diproses</small></div>`;
+}
+
+/* ---------- form ---------- */
+const F=$('#formAdu');
+F.satker.innerHTML+=SATKER.map(s=>`<option>${s}</option>`).join('');
+F.jenis.innerHTML+=JENIS.map(s=>`<option>${s}</option>`).join('');
+$('#fSatker').innerHTML+=SATKER.map(s=>`<option>${s}</option>`).join('');
+function validate(){
+  let ok=true;
+  const chk=(el,cond)=>{const w=el.closest('[data-req]');w.classList.toggle('invalid',!cond);if(!cond)ok=false};
+  chk(F.nama,F.nama.value.trim().length>=3);
+  chk(F.hp,/^(\+62|62|0)8\d{8,11}$/.test(F.hp.value.replace(/[\s-]/g,'')));
+  chk(F.lp,F.lp.value.trim().length>=4);
+  chk(F.satker,!!F.satker.value);
+  chk(F.tahap[0],!!F.querySelector('[name=tahap]:checked'));
+  chk(F.jenis,!!F.jenis.value);
+  chk(F.uraian,F.uraian.value.trim().length>=30);
+  chk(F.setuju,F.setuju.checked);
+  return ok;
+}
+F.addEventListener('input',e=>{const w=e.target.closest('.invalid');if(w)validate()});
+F.addEventListener('submit',e=>{
+  e.preventDefault();
+  if(!validate()){const f=F.querySelector('.invalid input,.invalid select,.invalid textarea');f&&f.focus();toast('Lengkapi kolom yang ditandai sebelum mengirim.');return}
+  const now=new Date(), y=now.getFullYear();
+  const max=DATA.reduce((m,x)=>Math.max(m,parseInt(x.no.split('-')[2],10)||0),0);
+  const no=`SMP-${y}-${String(max+1).padStart(4,'0')}`;
+  const rec={no,created:now.toISOString(),nama:F.nama.value.trim(),hp:F.hp.value.replace(/[\s-]/g,''),email:F.email.value.trim(),lp:F.lp.value.trim(),satker:F.satker.value,
+    tahap:F.querySelector('[name=tahap]:checked').value,jenis:F.jenis.value,uraian:F.uraian.value.trim(),lampiran:Array.from(F.lampiran.files).map(f=>f.name),prioritas:'',stage:0,
+    hist:[{s:0,at:now.toISOString(),note:'Nomor tiket diterbitkan dan notifikasi dikirim ke '+maskHP(F.hp.value.replace(/[\s-]/g,''))+'.'}],jawaban:''};
+  DATA.push(rec);save();F.reset();
+  go('lacak');$('#formLacak').tiket.value=no;renderTrack(no,true);
+  toast('Pengaduan terkirim. Nomor tiket Anda '+no+'.');
+});
+$('#btnContoh').addEventListener('click',()=>{
+  F.nama.value='Rahmat Hidayat';F.hp.value='081277345120';F.email.value='rahmat.h@contoh.id';
+  F.lp.value='LP/B/412/VIII/2026/SPKT/Polresta Barelang';F.satker.value='Polresta Barelang';
+  F.querySelector('[name=tahap][value=Penyelidikan]').checked=true;F.jenis.value='Belum menerima SP2HP';
+  F.uraian.value='Saya melaporkan dugaan penipuan jual beli tanah pada Agustus 2026. Hingga kini saya belum menerima SP2HP dan belum mengetahui perkembangan penyelidikan. Saya mohon kejelasan status dan jadwal pemeriksaan saksi.';
+  F.setuju.checked=true;validate();
+});
+
+/* ---------- track ---------- */
+function renderTrack(no,fresh){
+  const x=DATA.find(d=>d.no.toUpperCase()===no.trim().toUpperCase());
+  const box=$('#lacakResult');
+  if(!x){box.innerHTML=`<div class="empty">Nomor tiket <b>${esc(no)}</b> tidak ditemukan. Periksa kembali penulisan nomor tiket, contoh: SMP-2026-0001.</div>`;return}
+  box.innerHTML=`${fresh?`<div class="answer" style="margin:0 0 16px"><b>Pengaduan Anda telah diterima.</b> Simpan nomor tiket ini untuk memantau perkembangan penanganan.</div>`:''}
+  <article class="slip">
+    <div class="slip-head"><div><small>Nomor tiket</small><div class="no">${esc(x.no)}</div></div><div>${stageBadge(x)} ${slaBadge(x)}</div></div>
+    <div class="slip-body">
+      <div class="slip-meta">
+        <div><small>Diterima</small><b>${fDT(x.created)}</b></div>
+        <div><small>Satuan kerja</small><b>${esc(x.satker)}</b></div>
+        <div><small>Jenis pengaduan</small><b>${esc(x.jenis)}</b></div>
+        <div><small>Notifikasi ke</small><b>${maskHP(x.hp)}</b></div>
+      </div>
+      ${ruler(x)}
+    </div>
+    <hr class="slip-perf">
+    <div class="slip-body">
+      <h3>Riwayat penanganan</h3>
+      ${timeline(x)}
+      ${x.stage===6&&x.jawaban?`<div class="answer"><b>Jawaban kepada pelapor</b><p style="margin-top:6px">${esc(x.jawaban)}</p></div>`:''}
+    </div>
+  </article>`;
+}
+$('#formLacak').addEventListener('submit',e=>{e.preventDefault();const v=e.target.tiket.value;if(!v.trim()){toast('Masukkan nomor tiket terlebih dahulu.');return}renderTrack(v)});
+$('#btnContohTiket').addEventListener('click',()=>{const x=DATA.filter(d=>d.stage>=3&&d.stage<6)[0]||DATA[0];$('#formLacak').tiket.value=x.no;renderTrack(x.no)});
+
+/* ---------- queue ---------- */
+let qStage='open';
+function renderQueue(){
+  const counts={open:0,0:0,1:0,2:0,3:0,4:0,5:0,done:0};
+  DATA.forEach(x=>{if(x.stage===6)counts.done++;else{counts.open++;counts[x.stage]++}});
+  const chips=[['open','Semua aktif'],['0','Verifikasi'],['1','Disposisi'],['2','Klarifikasi'],['3','Keputusan gelar'],['4','Supervisi'],['5','Jawaban'],['done','Selesai']];
+  $('#queueChips').innerHTML=chips.map(([k,l])=>`<button class="qchip" data-q="${k}" aria-pressed="${qStage===k}"><b>${counts[k]}</b>${l}</button>`).join('');
+  const q=$('#fCari').value.trim().toLowerCase(),sat=$('#fSatker').value,sl=$('#fSla').value;
+  let rows=DATA.filter(x=>{
+    if(qStage==='open'&&x.stage===6)return false;
+    if(qStage==='done'&&x.stage!==6)return false;
+    if(!['open','done'].includes(qStage)&&String(x.stage)!==qStage)return false;
+    if(sat&&x.satker!==sat)return false;
+    if(sl&&info(x).sla!==sl)return false;
+    if(q&&!(x.no+' '+x.nama+' '+x.lp).toLowerCase().includes(q))return false;
+    return true;
+  });
+  rows.sort((a,b)=>qStage==='done'?new Date(b.created)-new Date(a.created):info(a).left-info(b).left);
+  $('#tbQueue').innerHTML=rows.length?rows.map(x=>`<tr data-no="${x.no}" tabindex="0">
+    <td><span class="tno">${x.no}</span><span class="sub">${fDate(x.created)}</span></td>
+    <td>${esc(x.nama)}<span class="sub">${esc(x.lp)}</span></td>
+    <td>${esc(x.satker)}</td><td>${esc(x.jenis)}</td><td>${stageBadge(x)}</td>
+    <td>${slaBadge(x)}${ruler(x,true)}</td></tr>`).join(''):`<tr><td colspan="6"><div class="empty" style="border:0">Tidak ada pengaduan yang cocok dengan filter ini. Ubah kata kunci atau pilih status lain.</div></td></tr>`;
+}
+$('#queueChips').addEventListener('click',e=>{const b=e.target.closest('[data-q]');if(b){qStage=b.dataset.q;renderQueue()}});
+['#fCari','#fSatker','#fSla'].forEach(s=>$(s).addEventListener('input',renderQueue));
+$('#tbQueue').addEventListener('click',e=>{const tr=e.target.closest('tr[data-no]');if(tr)openDrawer(tr.dataset.no)});
+$('#tbQueue').addEventListener('keydown',e=>{if(e.key==='Enter'){const tr=e.target.closest('tr[data-no]');if(tr)openDrawer(tr.dataset.no)}});
+$('#btnReset').addEventListener('click',()=>{if(confirm('Kembalikan seluruh data ke data contoh? Pengaduan yang Anda buat akan terhapus.')){DATA=seed();save();renderQueue();toast('Data contoh dipulihkan.')}});
+
+/* ---------- drawer ---------- */
+let cur=null;
+function openDrawer(no){
+  cur=DATA.find(d=>d.no===no);if(!cur)return;
+  $('#dwTitle').textContent=cur.no;renderDrawer();
+  $('#drawer').classList.add('open');$('#drawerBg').classList.add('open');$('#drawer').setAttribute('aria-hidden','false');
+  setTimeout(()=>$('#dwClose').focus(),50);
+}
+function closeDrawer(){$('#drawer').classList.remove('open');$('#drawerBg').classList.remove('open');$('#drawer').setAttribute('aria-hidden','true')}
+$('#dwClose').addEventListener('click',closeDrawer);$('#drawerBg').addEventListener('click',closeDrawer);
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDrawer()});
+function actionBox(x){
+  const s=x.stage;
+  if(s===6)return '';
+  const note=(ph)=>`<textarea id="acNote" placeholder="${ph}"></textarea>`;
+  if(s===0)return `<div class="action-box"><h3>Verifikasi dan klasifikasi</h3><p class="note">Batas waktu 1 hari kerja sejak registrasi.</p>
+    <select id="acPrio"><option value="">Tetapkan prioritas</option><option>Biasa</option><option>Sedang</option><option>Tinggi</option></select>${note('Catatan verifikasi (opsional)')}
+    <div class="row"><button class="btn btn-navy" data-act="verif">Verifikasi aduan</button></div></div>`;
+  if(s===1)return `<div class="action-box"><h3>Disposisi ke satuan kerja</h3><p class="note">Batas waktu 1 hari kerja sejak verifikasi.</p>
+    <select id="acSat">${SATKER.map(o=>`<option ${o===x.satker?'selected':''}>${o}</option>`).join('')}</select>${note('Arahan disposisi')}
+    <div class="row"><button class="btn btn-navy" data-act="dispo">Disposisikan</button></div></div>`;
+  if(s===2)return `<div class="action-box"><h3>Hasil klarifikasi dan penelitian berkas</h3><p class="note">Batas waktu 7 hari kerja. Isi ringkasan temuan dari satuan kerja.</p>${note('Ringkasan hasil klarifikasi')}
+    <div class="row"><button class="btn btn-navy" data-act="klar">Catat hasil klarifikasi</button></div></div>`;
+  if(s===3)return `<div class="action-box"><h3>Apakah perlu gelar perkara khusus?</h3><p class="note">Gelar perkara khusus dilakukan bila hasil klarifikasi menunjukkan ketidaksesuaian penanganan.</p>${note('Catatan hasil gelar atau alasan tidak digelar')}
+    <div class="row"><button class="btn btn-navy" data-act="gelar">Catat hasil gelar perkara</button><button class="btn btn-ghost" data-act="skip">Lanjut ke supervisi tanpa gelar</button></div></div>`;
+  if(s===4)return `<div class="action-box"><h3>Supervisi dan persetujuan Dir/Wadir</h3>${note('Catatan pimpinan')}
+    <div class="row"><button class="btn btn-navy" data-act="approve">Setujui hasil penanganan</button></div></div>`;
+  if(s===5)return `<div class="action-box"><h3>Kirim jawaban kepada pelapor</h3><p class="note">Jawaban dikirim bersama SP3D-Dumas dan notifikasi ke ${maskHP(x.hp)}.</p><textarea id="acNote" placeholder="Tulis jawaban tertulis kepada pelapor"></textarea>
+    <div class="row"><button class="btn btn-primary" data-act="answer">Kirim jawaban</button></div></div>`;
+}
+function renderDrawer(){
+  const x=cur;
+  $('#dwBody').innerHTML=`
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px">${stageBadge(x)} ${slaBadge(x)} ${x.prioritas?`<span class="badge b-mute">Prioritas ${esc(x.prioritas)}</span>`:''}</div>
+    ${ruler(x)}
+    ${actionBox(x)}
+    <dl class="kv" style="margin-top:18px">
+      <dt>Pelapor</dt><dd>${esc(x.nama)}</dd>
+      <dt>Kontak</dt><dd>${esc(x.hp)}${x.email?' · '+esc(x.email):''}</dd>
+      <dt>Nomor LP</dt><dd>${esc(x.lp)}</dd>
+      <dt>Satuan kerja</dt><dd>${esc(x.satker)}</dd>
+      <dt>Tahap perkara</dt><dd>${esc(x.tahap)}</dd>
+      <dt>Jenis</dt><dd>${esc(x.jenis)}</dd>
+      <dt>Lampiran</dt><dd>${x.lampiran.length?x.lampiran.map(esc).join(', '):'Tidak ada'}</dd>
+    </dl>
+    <div class="uraian">${esc(x.uraian)}</div>
+    <h3>Riwayat penanganan</h3>${timeline(x)}
+    ${x.jawaban?`<div class="answer"><b>Jawaban kepada pelapor</b><p style="margin-top:6px">${esc(x.jawaban)}</p></div>`:''}`;
+}
+$('#dwBody').addEventListener('click',e=>{
+  const b=e.target.closest('[data-act]');if(!b)return;
+  const x=cur,act=b.dataset.act,n=($('#acNote')||{value:''}).value.trim(),at=new Date().toISOString();
+  if(act==='verif'){const p=$('#acPrio').value;if(!p){toast('Tetapkan prioritas aduan terlebih dahulu.');$('#acPrio').focus();return}
+    x.prioritas=p;x.hist.push({s:1,at,note:`Aduan lengkap. Prioritas: ${p}.`+(n?' '+n:'')});x.stage=1}
+  if(act==='dispo'){const s=$('#acSat').value;x.satker=s;x.hist.push({s:2,at,note:`Didisposisikan kepada ${s}.`+(n?' '+n:'')});x.stage=2}
+  if(act==='klar'){if(!n){toast('Isi ringkasan hasil klarifikasi.');$('#acNote').focus();return}x.hist.push({s:3,at,note:n});x.stage=3}
+  if(act==='gelar'){if(!n){toast('Isi catatan hasil gelar perkara.');$('#acNote').focus();return}x.hist.push({s:4,at,note:n});x.stage=4}
+  if(act==='skip'){x.hist.push({s:4,at,skip:true,note:n||'Tidak memerlukan gelar perkara khusus.'});x.stage=4}
+  if(act==='approve'){x.hist.push({s:5,at,note:n||'Disetujui untuk ditindaklanjuti.'});x.stage=5}
+  if(act==='answer'){if(n.length<20){toast('Tulis jawaban minimal 20 karakter.');$('#acNote').focus();return}x.jawaban=n;x.hist.push({s:6,at,note:'Jawaban tertulis dan SP3D-Dumas telah dikirim kepada pelapor.'});x.stage=6}
+  save();renderDrawer();renderQueue();
+  toast(x.stage===6?'Jawaban terkirim. Pelapor menerima notifikasi.':'Tahap tercatat. Notifikasi perkembangan dikirim ke pelapor.');
+});
+
+/* ---------- dashboard ---------- */
+function renderDash(){
+  const per=$('#dPeriode').value,now=new Date();
+  const D=DATA.filter(x=>per==='all'||(now-new Date(x.created))/864e5<=+per);
+  const done=D.filter(x=>x.stage===6),open=D.filter(x=>x.stage!==6);
+  const late=D.filter(x=>info(x).sla==='bad');
+  const ontime=done.filter(x=>info(x).sla==='ok');
+  const avg=done.length?(done.reduce((a,x)=>a+info(x).used,0)/done.length):0;
+  const K=[['Aduan masuk',D.length,true],['Selesai dijawab',done.length],['Sedang diproses',open.length],['Melewati SLA',late.length],['Kepatuhan SLA',(done.length?Math.round(ontime.length/done.length*100):0)+'%'],['Rata-rata selesai',avg.toFixed(1).replace('.',',')+' hari']];
+  $('#kpis').innerHTML=K.map(([l,v,a])=>`<div class="kpi ${a?'accent':''}"><small>${l}</small><strong>${v}</strong></div>`).join('');
+  // per satker
+  const bySat=SATKER.map(s=>{const L=D.filter(x=>x.satker===s);return{s,n:L.length,d:L.filter(x=>x.stage===6).length,b:L.filter(x=>x.stage!==6&&info(x).sla==='bad').length}}).filter(o=>o.n).sort((a,b)=>b.n-a.n);
+  const mx=Math.max(1,...bySat.map(o=>o.n));
+  $('#chSatker').innerHTML=bySat.map(o=>`<div class="bar"><span>${o.s.replace(' Ditreskrimum','')}</span><span class="track" style="width:${o.n/mx*100}%"><span class="fill ok" style="width:${o.d/o.n*100}%"></span><span class="fill" style="width:${(o.n-o.d-o.b)/o.n*100}%"></span><span class="fill bad" style="width:${o.b/o.n*100}%"></span></span><b>${o.n}</b></div>`).join('')||'<p class="note">Belum ada data.</p>';
+  // per month (6 months)
+  const months=[];for(let i=5;i>=0;i--){const d=new Date(now.getFullYear(),now.getMonth()-i,1);months.push(d)}
+  const mdata=months.map(m=>{const L=D.filter(x=>{const c=new Date(x.created);return c.getFullYear()===m.getFullYear()&&c.getMonth()===m.getMonth()});return{m,n:L.length,d:L.filter(x=>x.stage===6).length}});
+  const mm=Math.max(1,...mdata.map(o=>o.n));
+  $('#chBulan').innerHTML=`<div class="cols">${mdata.map(o=>`<div class="col"><b>${o.n}</b><div class="stack" style="height:${o.n/mm*140}px"><div style="height:${o.n?o.d/o.n*100:0}%;background:var(--ok)"></div><div style="height:${o.n?(o.n-o.d)/o.n*100:0}%;background:#2C5AA0"></div></div></div>`).join('')}</div>
+    <div class="col-labels">${mdata.map(o=>`<span>${o.m.toLocaleDateString('id-ID',{month:'short'})}</span>`).join('')}</div>
+    <div class="legend"><span><i style="background:var(--ok)"></i>Selesai</span><span><i style="background:#2C5AA0"></i>Belum selesai</span></div>`;
+  // tahap
+  const st=[0,1,2,3,4,5].map(k=>({l:STEPS[k].next,n:open.filter(x=>x.stage===k).length}));
+  const ms=Math.max(1,...st.map(o=>o.n));
+  $('#chTahap').innerHTML=st.map(o=>`<div class="bar"><span>${o.l}</span><span class="track"><span class="fill gold" style="width:${o.n/ms*100}%"></span></span><b>${o.n}</b></div>`).join('');
+  const jn=JENIS.map(j=>({j,n:D.filter(x=>x.jenis===j).length})).sort((a,b)=>b.n-a.n);const mj=Math.max(1,...jn.map(o=>o.n));
+  $('#chJenis').innerHTML=jn.map(o=>`<div class="bar"><span>${o.j}</span><span class="track"><span class="fill" style="width:${o.n/mj*100}%"></span></span><b>${o.n}</b></div>`).join('');
+  const od=open.filter(x=>info(x).sla!=='ok').sort((a,b)=>info(a).left-info(b).left);
+  $('#overdueList').innerHTML=od.length?od.map(x=>`<li data-no="${x.no}" tabindex="0"><span><b>${x.no}</b> · ${esc(x.satker)} · ${esc(nextLabel(x))}</span>${slaBadge(x)}</li>`).join(''):'<li style="cursor:default">Seluruh aduan aktif masih dalam batas waktu layanan.</li>';
+}
+$('#dPeriode').addEventListener('change',renderDash);
+$('#overdueList').addEventListener('click',e=>{const li=e.target.closest('li[data-no]');if(li){go('petugas');openDrawer(li.dataset.no)}});
+
+/* ---------- theme ---------- */
+$('#themeBtn').addEventListener('click',()=>{
+  const r=document.documentElement,cur=r.dataset.theme||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
+  r.dataset.theme=cur==='dark'?'light':'dark';
+});
+
+/* ---------- init ---------- */
+window.addEventListener('hashchange',()=>{const v=location.hash.slice(1);if(document.getElementById('v-'+v))go(v)});
+const start=location.hash.slice(1);
+go(document.getElementById('v-'+start)?start:'beranda');
+})();
+</script>
+</body>
+</html>
